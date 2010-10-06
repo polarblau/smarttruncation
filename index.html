@@ -1,60 +1,83 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-
+		"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-	<script src="jquery.js" type="text/javascript" charset="utf-8"></script>
-	<script src="jquery.smarttruncation.js" type="text/javascript" charset="utf-8"></script>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>jQuery SmartTruncation plugin DEMO</title>
+		<script src="jquery.js" type="text/javascript" charset="utf-8"></script>
+		<script src="jquery.smarttruncation.js" type="text/javascript" charset="utf-8"></script>
 		<style type="text/css" media="screen">
-			* { margin:0; padding:0; font-family: sans-serif; }
-			.list {
-				background: #f1f1f1;
-				position: relative;
-				margin: 50px 200px;
-				padding: 10px;
-				width: 50%;
-			}
-			ul {
-				border-top: 1px solid #ccc;
-				list-style: none;
-			}
-			ul li {
-				padding: .5em 0;
-				border-bottom: 1px solid #ccc;
-				/*letter-spacing: 2px; Uncomment for testing! */
-			}
+		* { margin: 0; padding: 0; }
+
+		body {
+			font-family: Helvetica;
+			font-size: 67.5%;
+			color: #222;
+			padding: 50px;
+		}
+
+		.list {
+			background: #f1f1f1;
+			position: relative;
+			margin: 50px 200px;
+			padding: 10px;
+			width: 50%;
+		}
+
+		ul {
+			border-top: 1px solid #ccc;
+			list-style: none;
+		}
+
+		ul li {
+			padding: .5em 0;
+			border-bottom: 1px solid #ccc;
+			/*letter-spacing: 2px; Uncomment for testing! */
+		}
+
 		</style>
-		
 		<script type="text/javascript" charset="utf-8">
-		
-			$(function(){
-				$('.text li').smartTruncation();
-				$('.files li').smartTruncation(true);
-			});
+
+		$(function(){
+			$('.text li').smartTruncation();
+			$('.files li').smartTruncation(true);
+		});
 
 		</script>
-  </head>
-  <body>
-    <div class="list text">
-    	<ul>
-				<li>Lorem ipsum dolor sit amet aliquip &auml;x ea commodo consequat</li>
-				<li>Consectetur adipisicing elit, sed do aliquip ex ea commodo consequat</li>
-				<li>Eiusmod tempor incididunt aliquip ex ea commodo consequat</li>
-				<li>Ut labore et dolore magna aliqua. Ut enim aliquip ex ea commodo consequat</li>
-				<li>Ad minim veniam, quis nostrud voluptate velit esse cillum</li>
-				<li>Exercitation ullamco laboris nisi ut aliquip aliquip ex ea commodo consequat</li>
+		
+	</head>
+	<body>
+		<div class="list text">
+			<ul>
+				<li>Lorem ipsum dolor sit amet aliquip äx ea commodo consequat
+				</li>
+				<li>Consectetur adipisicing elit, sed do aliquip ex ea commodo consequat
+				</li>
+				<li>Eiusmod tempor incididunt aliquip ex ea commodo consequat
+				</li>
+				<li>Ut labore et dolore magna aliqua. Ut enim aliquip ex ea commodo consequat
+				</li>
+				<li>Ad minim veniam, quis nostrud voluptate velit esse cillum
+				</li>
+				<li>Exercitation ullamco laboris nisi ut aliquip aliquip ex ea commodo consequat
+				</li>
 			</ul>
-    </div>
+		</div>
 		<div class="list files">
-    	<ul>
-				<li>Ruby Programming_Syntax_Classes - Wikibooks, collection of open-content textbooks.pdf</li>
-				<li>Some_very_long_filename_for_a_keynot_presenattuin.key</li>
-				<li>someOLDOLDOLD.PDFfile_models_05.pdf</li>
-				<li>startttuppage_khu.pptx</li>
-				<li>newsletter-subscription-optin-module.1.1.6.zip</li>
-				<li>46573283ef778fddf125d8f6965b6ad0_l.png</li>
+			<ul>
+				<li>Ruby Programming_Syntax_Classes - Wikibooks, collection of open-content textbooks.pdf
+				</li>
+				<li>Some_very_long_filename_for_a_keynot_presenattuin.key
+				</li>
+				<li>someOLDOLDOLD.PDFfile_models_05.pdf
+				</li>
+				<li>startttuppage_khu.pptx
+				</li>
+				<li>newsletter-subscription-optin-module.1.1.6.zip
+				</li>
+				<li>46573283ef778fddf125d8f6965b6ad0_l.png
+				</li>
 			</ul>
-    </div>
-  </body>
+		</div>
+	</body>
 </html>

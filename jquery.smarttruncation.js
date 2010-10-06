@@ -1,5 +1,5 @@
 /*!
- * Smart truncation jQueryplugin
+ * Smart truncation jQuery plugin
  *
  * Copyright (c) 2010 Florian Plank (http://www.polarblau.com/)
  * Dual licensed under the MIT (MIT-LICENSE.txt)

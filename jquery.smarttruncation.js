@@ -57,6 +57,7 @@
 				var diff = $e.width() - outerWidth - 3 * sizes['.'];
 				if (diff <= 0) {
 				  var chunks = fileName.split("");
+				  // if character is unknown use "h", which has a good medium width
 					while (diff <= 0) diff = diff + (sizes[chunks.pop()] || sizes['h']) + tracking/2;
 					$wrapper.text($.trim(chunks.join(""))+"..."+extension);
 				} 
@@ -64,7 +65,7 @@
 			};
 			
 			// call if window resized
-			$(window).bind('resize', function(){ update(); });
+			$(window).bind('resize.smarttruncation', function(){ update(); });
 			
 			// initialize
 			update();

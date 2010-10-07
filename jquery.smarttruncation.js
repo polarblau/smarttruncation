@@ -14,11 +14,13 @@
 
 (function($){
   $.fn.smartTruncation = function(isFileName){
+    if (typeof isFileName == 'undefined') isFileName = false; 
 		return $(this).each(function(i, e){
 			var $e = $(e);
 			
 			// let's get the width of the most common characters
 			// in the current font-size 
+			// TODO: cache results for same font settings!
 			var letters = "a b c d e f g h i j k l m n o p q r s t u v w x y z".split(" ");
 			var numbers = "1 2 3 4 5 6 7 8 9 0".split(" ");
 			var other = "! § $ % & / ( ) = ? @ * ' + # - ; , : . < >".split(" ");
@@ -42,7 +44,7 @@
 			var $wrapper = $e.wrapInner('<span/>').find('span').css({
 				'whiteSpace' : 'nowrap'
 			});
-			var origText = $wrapper.text();
+			var origText = $.trim($wrapper.text());
 			var outerWidth = $wrapper.width();
 			var tracking = parseInt($e.css('letterSpacing'), 10) || -1;
 			
@@ -52,12 +54,13 @@
 
 			// truncate if necessary and append ellipse
 			var update = function(){
-				var chunks = fileName.split("");
 				var diff = $e.width() - outerWidth - 3 * sizes['.'];
 				if (diff <= 0) {
+				  var chunks = fileName.split("");
 					while (diff <= 0) diff = diff + (sizes[chunks.pop()] || sizes['h']) + tracking/2;
 					$wrapper.text($.trim(chunks.join(""))+"..."+extension);
-				} else $wrapper.text(origText);
+				} 
+				else $wrapper.text(origText);
 			};
 			
 			// call if window resized

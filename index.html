@@ -47,7 +47,12 @@
 
 		$(function(){
 			$('.text li').smartTruncation();
-			$('.files li').smartTruncation(true);
+			$('.text-2 li').smartTruncation({
+				"truncateCenter" : true
+			});
+			$('.files li').smartTruncation({
+				"protectExtensions" : true
+			});
 		});
 
 		</script>
@@ -67,6 +72,26 @@
 				<li>Ad minim veniam, quis nostrud voluptate velit esse cillum
 				</li>
 				<li>Exercitation ullamco laboris nisi ut aliquip aliquip ex ea commodo consequat
+				</li>
+				<li>0
+				</li>
+			</ul>
+		</div>
+		<div class="list text-2">
+			<ul>
+				<li>Hello Darkness my old friend I've come to talk to you again
+				</li>
+				<li>Consectetur adipisicing elit, sed do aliquip ex ea commodo consequat
+				</li>
+				<li>Eiusmod tempor incididunt aliquip ex ea commodo consequat
+				</li>
+				<li>Ut labore et dolore magna aliqua. Ut enim aliquip ex ea commodo consequat
+				</li>
+				<li>Ad minim veniam, quis nostrud voluptate velit esse cillum
+				</li>
+				<li>Exercitation ullamco laboris nisi ut aliquip aliquip ex ea commodo consequat
+				</li>
+				<li>0
 				</li>
 			</ul>
 		</div>

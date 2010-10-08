@@ -7,14 +7,22 @@
  *
  * USAGE:
  * 
+ * $('.text li').smartTruncation();
+ * $('.text-2 li').smartTruncation({
+ *   "truncateCenter" : true
+ * });
+ * $('.files li').smartTruncation({
+ *   protectExtensions" : true
+ * });
  * 
- * $('ul.text li').smartTruncation();
- * $('ul.files li').smartTruncation(true);
  */
 
 (function($) {
-	$.fn.smartTruncation = function(isFileName) {
-		if (typeof isFileName == 'undefined') isFileName = false;
+	$.fn.smartTruncation = function(options) {
+		var settings = $.merge(options || {}, {
+		  "protectExtensions" : false,
+		  "truncateCenter" : false
+		});
 		return $(this).each(function(i, e) {
 			var $e = $(e);
 
@@ -69,8 +77,8 @@
 			var tracking = parseInt($e.css('letterSpacing'), 10) || -1;
 
 			// keep extension visibile if file name
-			var extension = isFileName ? origText.split('.').pop() : "";
-			var fileName = isFileName ? (function(string) {
+			var extension = settings.protectExtensions ? origText.split('.').pop() : "";
+			var fileName = settings.protectExtensions ? (function(string) {
 				string = string.split('.');
 				string.pop();
 				return string.join('.');
@@ -81,9 +89,17 @@
 				var diff = $e.width() - outerWidth - 3 * sizes['.'];
 				if (diff <= 0) {
 					var chunks = fileName.split("");
-					// if character is unknown use "h", which has a good medium width
-					while (diff <= 0) diff = diff + (sizes[chunks.pop()] || sizes['h']) + tracking / 2;
-					$wrapper.text($.trim(chunks.join("")) + "..." + extension);
+					if (settings.truncateCenter) {
+					  var left = chunks.splice(0, Math.floor(chunks.length/2));
+					  while (diff <= 0) {
+					    var next = left.length > chunks.length ? left.pop() : chunks.shift();
+					    diff = diff + (sizes[next] || sizes['h']) + tracking;
+					  }
+					  $wrapper.text($.trim(left.join("")) + "..." + $.trim(chunks.join("")) + extension);
+					} else {
+  					while (diff <= 0) diff = diff + (sizes[chunks.pop()] || sizes['h']) + tracking / 2;
+  					$wrapper.text($.trim(chunks.join("")) + "..." + extension);
+  				}
 				} else $wrapper.text(origText);
 			};
 

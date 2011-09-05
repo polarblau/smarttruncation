@@ -1,9 +1,11 @@
 # Usage
 
 Basic options
+
 	$('.text li').smartTruncation();
 	
 Settings and defaults
+
 	$('.text-2 li').smartTruncation({
 		"truncateCenter" : true // "Hello World" -> "hel..rld"
 	});

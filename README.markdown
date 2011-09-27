@@ -2,16 +2,20 @@
 
 Basic options
 
-	$('.text li').smartTruncation();
-	
+```javascript
+$('.text li').smartTruncation();
+```
+  
 Settings and defaults
 
-	$('.text-2 li').smartTruncation({
-		"truncateCenter" : true // "Hello World" -> "hel..rld"
-	});
-	$('.files li').smartTruncation({
-		"protectExtensions" : true // "myimagefile.jpg" -> "myimagef...jpg"
-	});
+```javascript
+$('.text-2 li').smartTruncation({
+  "truncateCenter" : true // "Hello World" -> "hel..rld"
+});
+$('.files li').smartTruncation({
+  "protectExtensions" : true // "myimagefile.jpg" -> "myimagef...jpg"
+});
+```
 
 Check out the [demo here](http://www.polarblau.com/code/jquery/smarttruncation).
 

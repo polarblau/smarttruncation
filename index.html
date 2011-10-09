@@ -1,128 +1,202 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-		"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<title>jQuery SmartTruncation plugin DEMO</title>
-		<script src="jquery.js" type="text/javascript" charset="utf-8"></script>
-		<script src="jquery.smarttruncation.js" type="text/javascript" charset="utf-8"></script>
-		<style type="text/css" media="screen">
-		
-		* { margin: 0; padding: 0; }
+<!doctype html>
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
+<!-- Consider adding a manifest.appcache: h5bp.com/d/Offline -->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>jQuery.smarttruncation plugin</title>
+  <meta name="description" content="jQuery text truncation plugin">
+  <meta name="author" content="Florian Plank, http://polarblau.com">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="stylesheets/style.css" charset="utf-8" />
 
-		body {
-			font-family: sans-serif;
-			font-size: 100%;
-			color: #222;
-			padding: 50px;
-		}
+  <style>
+    ul.list, ul.file-list, ul.centered-list {
+      border-top: 1px solid #fff;
+      background: #eee;
+      list-style: none;
+      margin: 0;
+      padding: 2em 50px;
+    }
 
-		.list {
-			background: #f1f1f1;
-			position: relative;
-			margin: 50px 200px;
-			padding: 10px;
-			width: 50%;
-		}
+    ul.list li,
+    ul.file-list li, 
+    ul.centered-list li {
+      padding: .5em 0;
+      border-bottom: 1px solid #fff;
+    }
+  </style>
+  
+  <link rel="stylesheet" href="http://google-code-prettify.googlecode.com/svn/trunk/src/prettify.css"> 
+  <script src="http://google-code-prettify.googlecode.com/svn/trunk/src/prettify.js"></script>
+  
+</head>
 
-		ul {
-			border-top: 1px solid #ccc;
-			list-style: none;
-			
-		}
+<body onload="prettyPrint()">
+  <div class="container">
+    
+    <a class="ribbon" href="https://github.com/polarblau/suggest" target="_blank">
+      <img src="https://a248.e.akamai.net/assets.github.com/img/e6bef7a091f5f3138b8cd40bc3e114258dd68ddf/687474703a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub">
+    </a>
+    
+    <header>
+      <h1>jQuery.smarttruncation</h1>
+      <p>
+        <a href="https://github.com/polarblau/smarttruncation" title="GitHub repository" target="_blank">jQuery.smarttruncation</a> truncates the text within the assigned element to fit and updates the string length while resizing the window.
+      </p>
+      <p>
+        The used technique is very responsive, since it calculates the width for each character in a pre-define set ahead of time. The generated sizes dictionary is cached and re-used if the plugin is called on an element with identical font properties.
+      </p>
+      <p>
+        Sometimes (in about 3-5% of all cases), due to characteristics of certain fonts, a string will still not fit. In this case the plugin will go the "common" way of chopping off on character at a time until the string fits.
+      </p>
+      <p>
+        The plugin can be used on file names by setting the <code>protectExtensions</code> option to <code>true</code>, keeping the extension intact.
+      </p>
+      <p>
+        Setting <code>truncateCenter</code> to <code>true</code> will truncate from the inside out ("Hello World" becomes "Hel&hellip;rld").
+    </header>
+ 
+    <div>
+      <h2>Usage</h2>
+      
+      <div>
+        <h3>Markup</h3>
+        <pre class="prettyprint"><code>
+&lt;ul class="list"&gt;
+  &lt;li&gt;
+    Lorem ipsum dolor sit amet aliquip äx ea commodo consequat 
+    adipisicing elit, sed do aliquip
+  &lt;/li&gt;
+  &lt;li&gt;
+    Consectetur adipisicing elit, sed do aliquip ex ea commodo 
+    consequat
+  &lt;/li&gt;
+  &lt;li&gt;
+    Eiusmod tempor incididunt aliquip ex ea commodo consequat
+  &lt;/li&gt;
+&lt;/ul&gt;
 
-		ul li {
-			padding: .5em 0;
-			border-bottom: 1px solid #ccc;
-			font-size: 1.5em;
-			/*letter-spacing: 2px; Uncomment for testing! */
-		}
-		ul:hover li {
-			outline: 1px solid green;
-		}
-		
-		ul:hover li span {
-			outline: 1px solid red;
-		}
+&lt;ul class="file-list"&gt;
+  &lt;li&gt;
+    Ruby Programming_Syntax_Classes - Wikibooks, collection 
+    of open-content textbooks.pdf
+  &lt;/li&gt;
+  &lt;li&gt;
+    Some_very_long_filename_for_a_keynote_presentation_
+    still_going_on_and_on_and.key
+  &lt;/li&gt;
+  &lt;li&gt;
+    newsletter-subscription-optin-module.1.1.6.zip
+  &lt;/li&gt;
+&lt;/ul&gt;
 
-		</style>
-		<script type="text/javascript" charset="utf-8">
+&lt;ul class="centered-list"&gt;
+  &lt;li&gt;
+    Lorem ipsum dolor sit amet aliquip äx ea commodo consequat
+  &lt;/li&gt;
+  &lt;li&gt;
+    Consectetur adipisicing elit, sed do aliquip ex ea commodo 
+    consequat
+  &lt;/li&gt;
+  &lt;li&gt;
+    Eiusmod tempor incididunt aliquip ex ea commodo consequat
+  &lt;/li&gt;
+&lt;/ul&gt;
+        </code></pre>
+      </div>
+      
+      <div>
+        <h3>Javascript</h3>
+        <pre class="prettyprint"><code>
+$(function(){
+  $('ul.list li').smartTruncation();
 
-		$(function(){
-		  
-		  var $tester = $('.tester');
-		  $.each([8, 10, 12, 16, 18, 24, 32], function(i, size) {
-		    var $variation = $tester.clone();
-		    $('body').append($variation);
-		    $variation.find('li').css('fontSize', size+'px');
-		  });
-		  
-			$('.text li').smartTruncation();
-			$('.text-2 li').smartTruncation({
-				"truncateCenter" : true
-			});
-			$('.files li').smartTruncation({
-				"protectExtensions" : true
-			});
-		});
+  $('ul.file-list li').smartTruncation({
+    'protectExtensions' : true
+  });
+  
+  $('ul.centered-list li').smartTruncation({
+    'truncateCenter'    : true
+  });
+});
+        </code></pre>
+      </div>
+      
+      <div>
+        <h3><strong>Demo</strong></h3>
+        <h4>Default</h4>
+        <ul class="list">
+          <li>Lorem ipsum dolor sit amet aliquip äx ea commodo consequat tempor incididunt aliquip ex ea commodo consequat</li>
+          <li>Consectetur adipisicing elit, sed do aliquip ex ea commodo consequat tempor incididunt aliquip ex ea commodo consequat</li>
+          <li>Eiusmod tempor incididunt aliquip ex ea commodo consequat tempor incididunt aliquip ex ea commodo consequat</li>
+        </ul>
+        <h4>Protect extension</h4>
+        <ul class="file-list">
+          <li>Ruby Programming_Syntax_Classes - Wikibooks, collection of open-content textbooks.pdf</li>
+          <li>Some_very_long_filename_for_a_keynote_presentation_still_going_on_and_on_and.key</li>
+          <li>newsletter-subscription-optin-module.1.1.6.zip</li>
+        </ul>
+        <h4>Truncate centered</h4>
+        <ul class="centered-list">
+          <li>Lorem ipsum dolor sit amet aliquip äx ea commodo consequat tempor incididunt aliquip ex ea commodo consequat</li>
+          <li>Consectetur adipisicing elit, sed do aliquip ex ea commodo consequat tempor incididunt aliquip ex ea commodo consequat</li>
+          <li>Eiusmod tempor incididunt aliquip ex ea commodo consequat</li>
+        </ul>
+      </div>
+      
+    </div>
+    
+    <hr />
 
-		</script>
-		
-	</head>
-	<body>
-	  <div class="tester">
-  		<div class="list text">
-  			<ul>
-  				<li>Lorem ipsum dolor sit amet aliquip äx ea commodo consequat
-  				</li>
-  				<li>Consectetur adipisicing elit, sed do aliquip ex ea commodo consequat
-  				</li>
-  				<li>Eiusmod tempor incididunt aliquip ex ea commodo consequat
-  				</li>
-  				<li>Ut labore et dolore magna aliqua. Ut enim aliquip ex ea commodo consequat
-  				</li>
-  				<li>Ad minim veniam, quis nostrud voluptate velit esse cillum
-  				</li>
-  				<li>Exercitation ullamco laboris nisi ut aliquip aliquip ex ea commodo consequat
-  				</li>
-  				<li>0
-  				</li>
-  			</ul>
-  		</div>
-  		<div class="list text-2">
-  			<ul>
-  				<li>Hello Darkness my old friend I've come to talk to you again
-  				</li>
-  				<li>Consectetur adipisicing elit, sed do aliquip ex ea commodo consequat
-  				</li>
-  				<li>Eiusmod tempor incididunt aliquip ex ea commodo consequat
-  				</li>
-  				<li>Ut labore et dolore magna aliqua. Ut enim aliquip ex ea commodo consequat
-  				</li>
-  				<li>Ad minim veniam, quis nostrud voluptate velit esse cillum
-  				</li>
-  				<li>Exercitation ullamco laboris nisi ut aliquip aliquip ex ea commodo consequat
-  				</li>
-  				<li>0
-  				</li>
-  			</ul>
-  		</div>
-  		<div class="list files">
-  			<ul>
-  				<li>Ruby Programming_Syntax_Classes - Wikibooks, collection of open-content textbooks.pdf
-  				</li>
-  				<li>Some_very_long_filename_for_a_keynot_presenattuin.key
-  				</li>
-  				<li>someOLDOLDOLD.PDFfile_models_05.pdf
-  				</li>
-  				<li>startttuppage_khu.pptx
-  				</li>
-  				<li>newsletter-subscription-optin-module.1.1.6.zip
-  				</li>
-  				<li>46573283ef778fddf125d8f6965b6ad0_l.png
-  				</li>
-  			</ul>
-  		</div>
-		</div>
-	</body>
+    <div>
+      <h2>License</h2>
+      <p>
+        Copyright (c) 2011 Florian Plank (http://www.polarblau.com/). 
+        <br />
+        Dual licensed under the MIT (MIT-LICENSE.txt)
+        and GPL (GPL-LICENSE.txt) licenses.
+    </div>
+    
+    <hr />
+    
+    <div id="download">
+      <h2>Download the source</h2>
+      <a href="https://github.com/polarblau/smarttruncation/zipball/master" title="Download">
+        <img src="images/zip.png" width="60" height="78" alt="ZIP icon" /> 
+      </a>
+      <a href="https://github.com/polarblau/smarttruncation/tarball/master" title="Download">
+        <img src="images/tar.png" width="60" height="78" alt="ZIP icon" /> 
+      </a>
+    </div>
+    
+  </div>
+  
+  <footer>
+    <p><small>The look of this page is inspired by Jaewoong Kim's page for <a href="http://crossbreeze.github.com/jquery-sensible-datetime/">jquery-sensible-datetime</a> and other projects found on Github.</small></p>
+    <a href="http://polarblau.com" title="Polarblau">
+      <img src="images/logo.png" width="135" height="65" alt="Polarblau logo" />
+    </a>
+  </footer>
+
+  <script src="http://code.jquery.com/jquery.min.js"></script>
+  <script src="src/jquery.smarttruncation.js"></script>
+  <script>
+    $(function(){
+      $('.list li').smartTruncation();
+
+      $('.file-list li').smartTruncation({
+        "protectExtensions" : true
+      });
+
+      $('.centered-list li').smartTruncation({
+        "truncateCenter"    : true
+      });
+    });
+  </script>
+   
+</body>
 </html>

@@ -51,6 +51,7 @@
       // has text with identical font properties been measure before?
       if ($(window).data('smarttruncation.sizecache')[cacheKey]) {
         sizes = $(window).data('smarttruncation.sizecache')[cacheKey];
+        
       } else {
         
         // let's get the width of the most common characters

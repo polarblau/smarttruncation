@@ -105,17 +105,21 @@
         if (diff <= 0) {
           
           // split the string into separate characters
-          var chunks = fileName.split("");
+          var chunks  = fileName.split("");
+          
           
           // do we truncate from the inside out?
           if (settings.truncateCenter) {
             
             // cut the string in two, left holds one half, chunks the other
-            var left = chunks.splice(0, Math.floor(chunks.length/2));
+            var left        = chunks.slice(0, Math.floor(chunks.length/2));
+            var right       = chunks;
+            var lengthLeft  = left.length;
+            var lengthRight = right.length;
             
             // take one character at time from which ever side is bigger off
             while (diff <= 0) { 
-              var next = left.length > chunks.length ? left.pop() : chunks.shift();
+              var next = lengthLeft > lengthRight? left[--lengthLeft] : left[--lengthRight];
               // update the difference between wanted and actual size by checking the size
               // of the character from the sizes dictionary and add tracking
               // use the letter "h" in case the current character does not exist in the
@@ -124,20 +128,49 @@
             }
             
             // put the truncated text back plus ellipsis and file extension 
-            $wrapper.text($.trim(left.join("")) + "..." + $.trim(chunks.join("")) + extension);
+            $wrapper.text(
+              $.trim(left.slice(0, lengthLeft).join("")) 
+                + "..." 
+                + $.trim(right.slice(right.length - lengthRight).join("")) 
+                + extension
+            );
             
             // fallback: sometimes (3-5%) the string still doesn't fit:
             // insure that text stays within bounds under all circumstances by popping
             // one letter at time, while switching sides, trying to fit every time
-            var toggle = true; 
-            while ($wrapper.width() > $this.width()) {
-              toggle ? chunks.shift() : left.pop();
-              toggle = !toggle;
-              $wrapper.text($.trim(left.join("")) + "..." + $.trim(chunks.join("")) + extension);
+            if ($wrapper.width() > $this.width()) {
+              while ($wrapper.width() > $this.width()) {
+                lengthLeft > lengthRight? lengthLeft-- : lengthRight--;
+                $wrapper.text(
+                  $.trim(left.slice(0, lengthLeft).join("")) 
+                    + "..." 
+                    + $.trim(right.slice(right.length - lengthRight).join("")) 
+                    + extension
+                );
+              }
+            } else {
+              
+              // allow for a little bit room, if we check for absolutes, 
+              // the browser will get caught in a loop and the sky will come down
+              // let's use 40% of the fontsize
+              var safety = parseInt(fontAttributes.fontSize, 10) * 0.4;
+              if ($wrapper.width() + safety < $this.width()) {
+                while ($wrapper.width() + safety < $this.width()) {
+                  lengthLeft < lengthRight? lengthLeft++ : lengthRight++;
+                  $wrapper.text(
+                    $.trim(left.slice(0, lengthLeft).join("")) 
+                      + "..." 
+                      + $.trim(right.slice(right.length - lengthRight).join("")) 
+                      + extension
+                  );
+                }
+              }
             }
           
           // we only truncate the end, possibly keeping the file extension
           } else {
+            
+            var length = chunks.length;
             
             while (diff <= 0) {
               
@@ -145,16 +178,28 @@
               // of the character from the sizes dictionary and add tracking
               // use the letter "h" in case the current character does not exist in the
               // sizes dictionary
-              diff = diff + (sizes[chunks.pop()] || sizes['h']) + tracking / 2;
+              diff = diff + (sizes[--length] || sizes['h']) + tracking / 2;
             }
-            $wrapper.text($.trim(chunks.join("")) + "..." + extension);
+            $wrapper.text($.trim(chunks.slice(0, length).join("")) + "..." + extension);
             
             // fallback: sometimes (3-5%) the string still doesn't fit:
             // insure that text stays within bounds under all circumstances by popping
             // one letter at time, trying to fit every time
-            while ($wrapper.width() > $this.width()) {
-              chunks.pop();
-              $wrapper.text($.trim(chunks.join("")) + "..." + extension);
+            if ($wrapper.width() > $this.width()) {
+              while ($wrapper.width() > $this.width()) {
+                $wrapper.text($.trim(chunks.slice(0, --length).join("")) + "..." + extension);
+              }
+            } else {
+              
+              // allow for a little bit room, if we check for absolutes, 
+              // the browser will get caught in a loop and the sky will come down
+              // let's use 40% of the fontsize
+              var safety = parseInt(fontAttributes.fontSize, 10) * 0.4;
+              if ($wrapper.width() + safety < $this.width()) {
+                while ($wrapper.width() + safety < $this.width()) {
+                  $wrapper.text($.trim(chunks.slice(0, ++length).join("")) + "..." + extension);
+                }
+              }
             }
           }
         } else {

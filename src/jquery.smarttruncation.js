@@ -78,11 +78,10 @@
       }
 
       // wrap content in a inline element to get exact width
-      $this.data('wrapper', $this.wrapInner('<span/>').find('span').css({
+      var $wrapper   = $this.wrapInner('<span/>').find('span').css({
         'whiteSpace': 'nowrap'
-      }));
+      })
       
-      var $wrapper   = $this.data('wrapper');
       var origText   = $.trim($wrapper.text());
       var outerWidth = $wrapper.width();
       var tracking   = parseInt($this.css('letterSpacing'), 10) || -1;

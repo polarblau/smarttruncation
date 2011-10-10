@@ -78,9 +78,13 @@
       }
 
       // wrap content in a inline element to get exact width
-      var $wrapper   = $this.wrapInner('<span/>').find('span').css({
-        'whiteSpace': 'nowrap'
-      })
+      var $wrapper   = $this
+        .wrapInner('<span/>', { 
+          'class' : 'smarttruncation-wrapper'
+        })
+        .find('span').css({
+          'whiteSpace': 'nowrap'
+        });
       
       var origText   = $.trim($wrapper.text());
       var outerWidth = $wrapper.width();
@@ -100,6 +104,7 @@
       var update = function() {
         // how much do we need to shave off including the ellipsis we want to append?
         var diff = $this.width() - outerWidth - 3 * sizes['.'];
+        var safety;
         
         // do we need to truncate
         if (diff <= 0) {
@@ -153,7 +158,7 @@
               // allow for a little bit room, if we check for absolutes, 
               // the browser will get caught in a loop and the sky will come down
               // let's use 40% of the fontsize
-              var safety = parseInt(fontAttributes.fontSize, 10) * 0.4;
+              safety = parseInt(fontAttributes.fontSize, 10) * 0.4;
               if ($wrapper.width() + safety < $this.width()) {
                 while ($wrapper.width() + safety < $this.width()) {
                   lengthLeft < lengthRight? lengthLeft++ : lengthRight++;
@@ -194,7 +199,7 @@
               // allow for a little bit room, if we check for absolutes, 
               // the browser will get caught in a loop and the sky will come down
               // let's use 40% of the fontsize
-              var safety = parseInt(fontAttributes.fontSize, 10) * 0.4;
+              safety = parseInt(fontAttributes.fontSize, 10) * 0.4;
               if ($wrapper.width() + safety < $this.width()) {
                 while ($wrapper.width() + safety < $this.width()) {
                   $wrapper.text($.trim(chunks.slice(0, ++length).join("")) + "..." + extension);

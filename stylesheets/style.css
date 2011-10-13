@@ -68,6 +68,26 @@ td { vertical-align: top; }
 
 body {
   background: url(../images/bg.jpeg);
+  font-size: 1em;
+  line-height: 1.4em;
+  color: #222;
+}
+
+header h1 {
+  position: relative;
+}
+
+header h1 span {
+  font-size: 0.5em;
+  padding: 3px 7px 2px 24px;
+  color: #777;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  background: transparent url(../images/tag.png) no-repeat 4px center;
+  border: 1px solid #ccc;
+  position: absolute;
+  bottom: -0.25em;
 }
 
 .container { 
@@ -82,13 +102,17 @@ body {
   box-shadow: 0 0 15px rgba(0,0,0,0.1); 
 }
   
-.container pre,
+.container .container pre,
 .container .prettyprint { 
   padding: 0 20px; 
   border: 1px solid #bab1cc; 
   margin: 0 0 20px; 
-  font-size: 13px; 
+  font-size: 14px; 
   background: #eeecf1;
+}
+
+.container p code {
+  color: #9c8eb7;
 }
 
 .ribbon { 
@@ -120,10 +144,6 @@ header {
 
 #download a {
   margin-right: 10px;
-}
-
-p {
-  line-height: 1.3em;
 }
 
 p small { 
